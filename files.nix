@@ -1,4 +1,5 @@
-_: {
+{ ... }:
+{
   config.vim = {
     filetree.neo-tree.enable = true;
     keymaps = [

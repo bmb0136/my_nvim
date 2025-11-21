@@ -1,4 +1,5 @@
-{...}: {
+{ ... }:
+{
   config.vim = {
     lsp.enable = true;
 
@@ -15,7 +16,7 @@
 
       nix = {
         enable = true;
-        format.type = "nixfmt";
+        format.type = [ "nixfmt" ];
       };
     };
 
