@@ -1,7 +1,10 @@
-{ ... }:
+{ pkgs, lib, ... }:
 {
   config.vim = {
     lsp.enable = true;
+
+    # Get all grammars
+    treesitter.grammars = builtins.attrValues (lib.filterAttrs (n: _: lib.strings.hasPrefix "tree-sitter-" n) pkgs.vimPlugins.nvim-treesitter.builtGrammars);
 
     treesitter = {
       enable = true;
