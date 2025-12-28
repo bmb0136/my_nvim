@@ -26,28 +26,78 @@
           "riscv64-linux"
           "x86_64-freebsd"
         ];
-
         perSystem =
           { self', pkgs, ... }:
+          let
+            mkConfig =
+              modules:
+              (inputs.nvf.lib.neovimConfiguration {
+                inherit pkgs;
+                modules = [ ./common.nix ] ++ modules;
+              }).neovim;
+            allLangs = [
+              "assembly"
+              "astro"
+              "bash"
+              "cue"
+              "dart"
+              "clang"
+              "clojure"
+              "css"
+              "elixir"
+              "fsharp"
+              "gleam"
+              "go"
+              "hcl"
+              "helm"
+              "kotlin"
+              "html"
+              "haskell"
+              "java"
+              "json"
+              "lua"
+              "markdown"
+              "nim"
+              "vala"
+              "nix"
+              "ocaml"
+              "php"
+              "python"
+              "qml"
+              "r"
+              "rust"
+              "scala"
+              "sql"
+              "svelte"
+              "tailwind"
+              "terraform"
+              "ts"
+              "typst"
+              "zig"
+              "csharp"
+              "julia"
+              "nu"
+              "odin"
+              "wgsl"
+              "yaml"
+              "ruby"
+              "just"
+            ];
+            allConfigs = pkgs.lib.attrsets.genAttrs allLangs (
+              l:
+              mkConfig [
+                {
+                  config.vim.languages.${l}.enable = true;
+                }
+              ]
+            );
+          in
           {
-            packages.default =
-              (inputs.nvf.lib.neovimConfiguration {
-                inherit pkgs;
-                modules = [
-                  ./common.nix
-                ];
-              }).neovim;
-            packages.c =
-              (inputs.nvf.lib.neovimConfiguration {
-                inherit pkgs;
-                modules = [
-                  ./common.nix
-                  {
-                    config.vim.languages.clang.enable = true;
-                  }
-                ];
-              }).neovim;
-            packages.cpp = self'.packages.c;
+            packages = allConfigs // {
+              default = mkConfig [ ];
+              c = self'.packages.clang;
+              cpp = self'.packages.c;
+            };
           };
       }
     );
