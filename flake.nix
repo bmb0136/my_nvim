@@ -28,7 +28,7 @@
         ];
 
         perSystem =
-          { pkgs, ... }:
+          { self', pkgs, ... }:
           {
             packages.default =
               (inputs.nvf.lib.neovimConfiguration {
@@ -37,6 +37,17 @@
                   ./common.nix
                 ];
               }).neovim;
+            packages.c =
+              (inputs.nvf.lib.neovimConfiguration {
+                inherit pkgs;
+                modules = [
+                  ./common.nix
+                  {
+                    config.vim.languages.clang.enable = true;
+                  }
+                ];
+              }).neovim;
+            packages.cpp = self'.packages.c;
           };
       }
     );
