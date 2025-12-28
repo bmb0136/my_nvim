@@ -12,7 +12,7 @@
   outputs =
     inputs@{ flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } (
-      { inputs, ... }:
+      { self, inputs, ... }:
       {
         systems = [
           "x86_64-linux"
@@ -26,15 +26,40 @@
           "riscv64-linux"
           "x86_64-freebsd"
         ];
-        perSystem =
-          { self', pkgs, ... }:
-          let
-            mkConfig =
-              modules:
+        flake = {
+          lib = rec {
+            withExtraModules =
+              { pkgs, modules }:
               (inputs.nvf.lib.neovimConfiguration {
                 inherit pkgs;
                 modules = [ ./common.nix ] ++ modules;
               }).neovim;
+            withLanguages =
+              {
+                pkgs,
+                langs,
+                modules ? [ ],
+              }:
+              withExtraModules {
+                inherit pkgs;
+                modules = modules ++ [
+                  {
+                    config.vim.languages = pkgs.lib.attrsets.genAttrs langs (_: {
+                      enable = true;
+                    });
+                  }
+                ];
+              };
+          };
+        };
+        perSystem =
+          {
+            self',
+            pkgs,
+            ...
+          }:
+          let
+            mkConfig = modules: self.lib.withExtraModules { inherit pkgs modules; };
             allLangs = [
               "assembly"
               "astro"
