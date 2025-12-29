@@ -7,10 +7,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-parts.follows = "flake-parts";
     };
-    flake-compat = {
-      url = "github:NixOS/flake-compat";
-      flake = false;
-    };
   };
 
   outputs =
