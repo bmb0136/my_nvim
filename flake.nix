@@ -7,6 +7,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-parts.follows = "flake-parts";
     };
+    flake-compat = {
+      url = "github:NixOS/flake-compat";
+      flake = false;
+    };
   };
 
   outputs =
@@ -20,32 +24,6 @@
           "x86_64-darwin"
           "aarch64-darwin"
         ];
-        flake = {
-          lib = rec {
-            withExtraModules =
-              { pkgs, modules }:
-              (inputs.nvf.lib.neovimConfiguration {
-                inherit pkgs;
-                modules = [ ./common.nix ] ++ modules;
-              }).neovim;
-            withLanguages =
-              {
-                pkgs,
-                langs,
-                modules ? [ ],
-              }:
-              withExtraModules {
-                inherit pkgs;
-                modules = modules ++ [
-                  {
-                    config.vim.languages = pkgs.lib.attrsets.genAttrs langs (_: {
-                      enable = true;
-                    });
-                  }
-                ];
-              };
-          };
-        };
         perSystem =
           {
             self',
@@ -53,13 +31,13 @@
             ...
           }:
           let
-            mkConfig = modules: self.lib.withExtraModules { inherit pkgs modules; };
             allLangs = [
               "assembly"
               "astro"
               "bash"
-              "clang"
+              "c"
               "clojure"
+              "cpp"
               "csharp"
               "css"
               "cue"
@@ -103,18 +81,15 @@
             ];
             allConfigs = pkgs.lib.attrsets.genAttrs allLangs (
               l:
-              mkConfig [
-                {
-                  config.vim.languages.${l}.enable = true;
-                }
-              ]
+              pkgs.callPackage ./nvim.nix {
+                inherit (inputs) nvf;
+                "enable-${l}" = true;
+              }
             );
           in
           {
             packages = allConfigs // {
-              default = mkConfig [ ];
-              c = self'.packages.clang;
-              cpp = self'.packages.c;
+              default = pkgs.callPackage ./nvim.nix { inherit (inputs) nvf; };
             };
           };
       }
