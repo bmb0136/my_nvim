@@ -86,6 +86,7 @@
           {
             packages = allConfigs // {
               default = pkgs.callPackage ./nvim.nix { inherit (inputs) nvf; };
+              mkvim = pkgs.callPackage ./mkvim.nix { inherit (inputs) self; };
             };
           };
       }
