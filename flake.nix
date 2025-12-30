@@ -30,7 +30,6 @@
             allLangs = [
               "assembly"
               "astro"
-              "bash"
               "c"
               "clojure"
               "cpp"

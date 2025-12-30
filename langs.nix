@@ -21,6 +21,8 @@
         enable = true;
         format.type = [ "nixfmt" ];
       };
+
+      bash.enable = true;
     };
 
     lsp = {
