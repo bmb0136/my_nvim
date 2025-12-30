@@ -18,7 +18,7 @@ pkgs.writeShellApplication rec {
     args="enable-$lang=true;"
     json='${builtins.toJSON modules}'
     args+="modules=builtins.fromJSON $(echo "$json" | ${pkgs.jq}/bin/jq -R .);"
-    result=$(nix-build -v 0 --expr "(builtins.getFlake \"$my_nvim\").packages.\"$system\".default.override { $args }" --no-out-link)
+    result=$(nix build --expr "(builtins.getFlake \"$my_nvim\").packages.\"$system\".default.override { $args }" --no-out-link)
     "$result/bin/nvim" "$@"
   '';
 }
