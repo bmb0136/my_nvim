@@ -57,7 +57,6 @@
       config.vim.languages = {
         assembly.enable = enable-assembly;
         astro.enable = enable-astro;
-        bash.enable = enable-bash;
         clang.enable = enable-c || enable-cpp;
         clojure.enable = enable-clojure;
         csharp.enable = enable-csharp;
