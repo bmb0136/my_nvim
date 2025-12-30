@@ -1,8 +1,7 @@
 {
   self,
   pkgs,
-  lib,
-  modules ? [],
+  modules ? [ ],
   ...
 }:
 pkgs.writeShellApplication rec {
@@ -17,7 +16,8 @@ pkgs.writeShellApplication rec {
     my_nvim="${self}"
     system="${pkgs.stdenv.hostPlatform.system}"
     args="enable-$lang=true;"
-    args+='modules=builtins.fromJSON "${lib.escapeShellArg (builtins.toJSON modules)}";'
+    json='${builtins.toJSON modules}'
+    args+="modules=builtins.fromJSON $(echo "$json" | ${pkgs.jq}/bin/jq -R .);"
     result=$(nix-build --expr "(builtins.getFlake \"$my_nvim\").packages.\"$system\".default.override { $args }" --no-out-link)
     "$result/bin/nvim" "$@"
   '';
