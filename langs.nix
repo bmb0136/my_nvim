@@ -10,7 +10,10 @@
       enable = true;
       addDefaultGrammars = true;
       autotagHtml = true;
-      context.enable = true;
+      context = {
+        enable = true;
+        max_lines = 3;
+      };
     };
 
     languages = {
