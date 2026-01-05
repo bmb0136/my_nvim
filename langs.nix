@@ -12,7 +12,7 @@
       autotagHtml = true;
       context = {
         enable = true;
-        max_lines = 3;
+        maxLines = 3;
       };
     };
 
