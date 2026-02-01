@@ -13,6 +13,8 @@
       transparent = false;
     };
 
+    spellcheck.enable = true;
+
     binds = {
       whichKey.enable = true;
       cheatsheet.enable = true;
