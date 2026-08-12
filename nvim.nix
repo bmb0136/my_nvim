@@ -2,105 +2,170 @@
   pkgs,
   nvf,
   modules ? [ ],
+  enable-angular ? false,
+  enable-arduino ? false,
   enable-assembly ? false,
   enable-astro ? false,
-  enable-c ? false,
+  enable-awk ? false,
+  #enable-bash ? false,
+  enable-beancount ? false,
+  enable-clang ? false,
   enable-clojure ? false,
-  enable-cpp ? false,
+  enable-cmake ? false,
   enable-csharp ? false,
   enable-css ? false,
   enable-cue ? false,
   enable-dart ? false,
+  enable-docker ? false,
   enable-elixir ? false,
+  enable-elm ? false,
+  enable-env ? false,
+  enable-fish ? false,
+  enable-fluent ? false,
   enable-fsharp ? false,
+  enable-gettext ? false,
   enable-gleam ? false,
+  enable-glsl ? false,
   enable-go ? false,
   enable-haskell ? false,
   enable-hcl ? false,
   enable-helm ? false,
   enable-html ? false,
   enable-java ? false,
+  enable-jinja ? false,
+  enable-jq ? false,
   enable-json ? false,
+  enable-json5 ? false,
   enable-julia ? false,
   enable-just ? false,
   enable-kotlin ? false,
+  enable-liquid ? false,
+  enable-lisp ? false,
   enable-lua ? false,
+  enable-make ? false,
   enable-markdown ? false,
   enable-nim ? false,
+  #enable-nix ? false,
   enable-nu ? false,
   enable-ocaml ? false,
   enable-odin ? false,
+  enable-openscad ? false,
   enable-php ? false,
+  enable-pug ? false,
   enable-python ? false,
   enable-qml ? false,
+  enable-query ? false,
   enable-r ? false,
   enable-ruby ? false,
   enable-rust ? false,
   enable-scala ? false,
+  enable-scss ? false,
   enable-sql ? false,
+  enable-standard-ml ? false,
   enable-svelte ? false,
-  enable-tailwind ? false,
+  enable-tera ? false,
   enable-terraform ? false,
-  enable-ts ? false,
+  enable-tex ? false,
+  enable-toml ? false,
+  enable-tsx ? false,
+  enable-twig ? false,
+  enable-typescript ? false,
   enable-typst ? false,
   enable-vala ? false,
+  enable-vhdl ? false,
+  enable-vue ? false,
   enable-wgsl ? false,
+  enable-xml ? false,
   enable-yaml ? false,
   enable-zig ? false,
+  enable-zsh ? false,
   ...
 }:
 (nvf.lib.neovimConfiguration {
   inherit pkgs;
-  modules = modules ++ [
+  modules = [
     ./common.nix
     {
+      imports = modules;
       config.vim.languages = {
+        angular.enable = enable-angular;
+        arduino.enable = enable-arduino;
         assembly.enable = enable-assembly;
         astro.enable = enable-astro;
-        clang.enable = enable-c || enable-cpp;
+        awk.enable = enable-awk;
+        #bash.enable = enable-bash;
+        beancount.enable = enable-beancount;
+        clang.enable = enable-clang;
         clojure.enable = enable-clojure;
+        cmake.enable = enable-cmake;
         csharp.enable = enable-csharp;
         css.enable = enable-css;
         cue.enable = enable-cue;
         dart.enable = enable-dart;
+        docker.enable = enable-docker;
         elixir.enable = enable-elixir;
+        elm.enable = enable-elm;
+        env.enable = enable-env;
+        fish.enable = enable-fish;
+        fluent.enable = enable-fluent;
         fsharp.enable = enable-fsharp;
+        gettext.enable = enable-gettext;
         gleam.enable = enable-gleam;
+        glsl.enable = enable-glsl;
         go.enable = enable-go;
         haskell.enable = enable-haskell;
         hcl.enable = enable-hcl;
         helm.enable = enable-helm;
         html.enable = enable-html;
         java.enable = enable-java;
+        jinja.enable = enable-jinja;
+        jq.enable = enable-jq;
         json.enable = enable-json;
+        json5.enable = enable-json5;
         julia.enable = enable-julia;
         just.enable = enable-just;
         kotlin.enable = enable-kotlin;
+        liquid.enable = enable-liquid;
+        lisp.enable = enable-lisp;
         lua.enable = enable-lua;
+        make.enable = enable-make;
         markdown.enable = enable-markdown;
         nim.enable = enable-nim;
+        #nix.enable = enable-nix;
         nu.enable = enable-nu;
         ocaml.enable = enable-ocaml;
         odin.enable = enable-odin;
+        openscad.enable = enable-openscad;
         php.enable = enable-php;
+        pug.enable = enable-pug;
         python.enable = enable-python;
         qml.enable = enable-qml;
+        query.enable = enable-query;
         r.enable = enable-r;
         ruby.enable = enable-ruby;
         rust.enable = enable-rust;
         scala.enable = enable-scala;
+        scss.enable = enable-scss;
         sql.enable = enable-sql;
+        standard-ml.enable = enable-standard-ml;
         svelte.enable = enable-svelte;
-        tailwind.enable = enable-tailwind;
+        tera.enable = enable-tera;
         terraform.enable = enable-terraform;
-        ts.enable = enable-ts;
+        tex.enable = enable-tex;
+        toml.enable = enable-toml;
+        tsx.enable = enable-tsx;
+        twig.enable = enable-twig;
+        typescript.enable = enable-typescript;
         typst.enable = enable-typst;
         vala.enable = enable-vala;
+        vhdl.enable = enable-vhdl;
+        vue.enable = enable-vue;
         wgsl.enable = enable-wgsl;
+        xml.enable = enable-xml;
         yaml.enable = enable-yaml;
         zig.enable = enable-zig;
+        zsh.enable = enable-zsh;
       };
     }
-  ]
-  ++ modules;
+  ];
 }).neovim
